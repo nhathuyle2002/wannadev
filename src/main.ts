@@ -1,8 +1,17 @@
 import './styles.css';
 
-type Highlight = {
-  icon: string;
+type Profile = {
+  name: string;
+  headline: string;
+  location: string;
+  about: string;
+  linkedin: string;
+  email: string;
+};
+
+type Item = {
   title: string;
+  subtitle: string;
   detail: string;
 };
 
@@ -11,21 +20,52 @@ type Skill = {
   level: string;
 };
 
-const highlights: Highlight[] = [
+const profile: Profile = {
+  name: 'Huy Le Nhat',
+  headline: 'Software Developer | TypeScript, Frontend, CI/CD',
+  location: 'Vietnam',
+  about:
+    'I build modern, responsive web experiences with a strong focus on performance, maintainability, and product quality. I enjoy solving practical business problems with clean engineering workflows.',
+  linkedin: 'https://www.linkedin.com/in/huy-le-nhat/',
+  email: 'huykvp@gmail.com'
+};
+
+const highlights: Item[] = [
   {
-    icon: '💡',
-    title: 'Creative Problem Solver',
-    detail: 'I enjoy turning rough ideas into practical products and clean user experiences.'
+    title: 'Profile-driven portfolio',
+    subtitle: 'Showcase personal brand',
+    detail: 'This page is structured to map directly to LinkedIn-style sections for easier updates.'
   },
   {
-    icon: '⚙️',
-    title: 'Engineering Mindset',
-    detail: 'I focus on scalable architecture, readable code, and automation-first workflows.'
+    title: 'TypeScript-first implementation',
+    subtitle: 'Production ready',
+    detail: 'Built with Vite + TypeScript and prepared for GitHub Pages continuous deployment.'
   },
   {
-    icon: '🚀',
-    title: 'Continuous Improvement',
-    detail: 'I iterate quickly, measure outcomes, and refine both product and process.'
+    title: 'Easy content expansion',
+    subtitle: 'Add details later',
+    detail: 'Sections can be extended quickly with more jobs, projects, certifications, and contact channels.'
+  }
+];
+
+const experience: Item[] = [
+  {
+    title: 'Software Developer',
+    subtitle: 'Your Company • YYYY - Present',
+    detail: 'Add your current role scope, ownership, and measurable impact here.'
+  },
+  {
+    title: 'Frontend Developer',
+    subtitle: 'Previous Company • YYYY - YYYY',
+    detail: 'Add key responsibilities, technologies, and achievements from this role.'
+  }
+];
+
+const education: Item[] = [
+  {
+    title: 'University Name',
+    subtitle: 'Degree / Major • YYYY - YYYY',
+    detail: 'Add notable coursework, projects, GPA, or awards if useful.'
   }
 ];
 
@@ -54,14 +94,19 @@ app.innerHTML = `
   <header class="hero container">
     <div class="hero__content">
       <p class="kicker">HELLO, I'M</p>
-      <h1>Huy Le</h1>
-      <p class="lead">Software developer building thoughtful web products with TypeScript, modern tooling, and strong delivery practices.</p>
-      <p class="sublead">Additional profile details will be added here later.</p>
+      <h1>${profile.name}</h1>
+      <p class="lead">${profile.headline}</p>
+      <p class="sublead">${profile.about}</p>
 
       <div class="hero__meta">
-        <span class="chip">📍 Vietnam</span>
+        <span class="chip">📍 ${profile.location}</span>
         <span class="chip">💼 Open to opportunities</span>
         <span class="chip">🛠️ Full-stack focused</span>
+      </div>
+
+      <div class="hero__actions">
+        <a class="link-btn" href="${profile.linkedin}" target="_blank" rel="noreferrer">LinkedIn Profile</a>
+        <a class="link-btn link-btn--ghost" href="mailto:${profile.email}">Email Me</a>
       </div>
     </div>
 
@@ -77,20 +122,32 @@ app.innerHTML = `
     </section>
 
     <section>
+      <h2>Experience</h2>
+      <div class="stack-list" id="experienceList"></div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="stack-list" id="educationList"></div>
+    </section>
+
+    <section>
       <h2>Core Skills</h2>
       <ul class="skills" id="skillsList"></ul>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© 2026 Huy Le. Built with TypeScript and ready for GitHub Pages.</p>
+    <p>© 2026 ${profile.name}. Built with TypeScript and ready for GitHub Pages.</p>
   </footer>
 `;
 
 const highlightGrid = document.querySelector<HTMLDivElement>('#highlightGrid');
+const experienceList = document.querySelector<HTMLDivElement>('#experienceList');
+const educationList = document.querySelector<HTMLDivElement>('#educationList');
 const skillsList = document.querySelector<HTMLUListElement>('#skillsList');
 
-if (!highlightGrid || !skillsList) {
+if (!highlightGrid || !experienceList || !educationList || !skillsList) {
   throw new Error('Missing required UI containers');
 }
 
@@ -98,8 +155,32 @@ highlightGrid.innerHTML = highlights
   .map(
     (item) => `
       <article class="card">
-        <div class="card__icon" aria-hidden="true">${item.icon}</div>
         <h3>${item.title}</h3>
+        <p class="card__subtitle">${item.subtitle}</p>
+        <p>${item.detail}</p>
+      </article>
+    `
+  )
+  .join('');
+
+experienceList.innerHTML = experience
+  .map(
+    (item) => `
+      <article class="entry">
+        <h3>${item.title}</h3>
+        <p class="entry__subtitle">${item.subtitle}</p>
+        <p>${item.detail}</p>
+      </article>
+    `
+  )
+  .join('');
+
+educationList.innerHTML = education
+  .map(
+    (item) => `
+      <article class="entry">
+        <h3>${item.title}</h3>
+        <p class="entry__subtitle">${item.subtitle}</p>
         <p>${item.detail}</p>
       </article>
     `
